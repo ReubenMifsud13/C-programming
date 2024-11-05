@@ -14,7 +14,15 @@ int main(void){
     float mean, median;
 
     printf("Insert an integer number from 1 to 100\n");
-    nums[0] = get_int();
+    
+    do{
+        nums[0] = get_int();
+        if(is_valid(0, nums[0]) == 0){
+            printf("Invalid input - must be a number from 1 to 100: ");
+        }
+    }
+    while(is_valid(0, nums[0]) == 0);
+
     total += nums[0];
 
     //Reading 20 numbers:
@@ -22,6 +30,9 @@ int main(void){
         printf("Insert a number from 1 to 100 which is greater than or equal to %d: ", nums[(count-1)]);
         nums[count] = get_int();
 
+        if(nums[count] == -1){
+            break;
+        }
         if(is_valid(nums[count-1], nums[count]) == 0){ //checking whether the integer is in ascending order & in range
             printf("The number you have inserted is invalid\n", nums[count]);
             count--;
