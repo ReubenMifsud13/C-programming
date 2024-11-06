@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define numSize 20
+#define maxSize 20
 
 int get_int();
 int is_valid();
@@ -9,8 +9,8 @@ int get_occurences();
 void get_mode();
 
 int main(void){
-    int nums[numSize];
-    int total = 0;
+    int nums[maxSize];
+    int total = 0, numSize = 1;
     float mean, median;
 
     printf("Insert an integer number from 1 to 100\n");
@@ -26,8 +26,9 @@ int main(void){
     total += nums[0];
 
     //Reading 20 numbers:
-    for(int count = 1; count < numSize; count++){
-        printf("Insert a number from 1 to 100 which is greater than or equal to %d: ", nums[(count-1)]);
+    for(int count = 1; count < maxSize; count++){
+        printf("Insert a number from 1 to 100 which is greater than or equal to %d\n", nums[(count-1)]);
+        printf("If you want to stop inputting numbers, insert -1 : ");
         nums[count] = get_int();
 
         if(nums[count] == -1){
@@ -39,18 +40,25 @@ int main(void){
             continue; //so to not count the total (for mean)
         }
         total += nums[count];
+        numSize++;
     }
     //calculating & displaying mean
     mean = mean_value(total, numSize);
     printf("Mean = %.2f\n", mean);
 
     //calculating & displaying median
-    int middle = numSize / 2; //point to middle of array
-    total = nums[middle] + nums[middle-1];
-    median = mean_value(total, 2);
+    if(numSize %2 == 0){
+        int middle = numSize / 2; //point to middle of array
+        total = nums[middle] + nums[middle-1];
+        median = mean_value(total, 2);
+    }
+    else{ //odd amt of numbers
+        median = (numSize/2)+1;
+    }
+    
     printf("Median = %.2f\n", median);
 
-    get_mode(nums); //calculates and displays the mode/s
+    get_mode(nums, numSize); //calculates and displays the mode/s
 
     return 0;
 }
@@ -78,14 +86,14 @@ float mean_value(int total, int size){
     return (total / (float)size);
 }
 
-void get_mode(int *arr){
-    int modes[numSize]; // Array to store multiple modes
+void get_mode(int *arr, int size){
+    int modes[size]; // Array to store multiple modes
     int pointer = 0;    // Pointer to track the number of modes
     int max_count = 0;  // Track the highest frequency
 
     // Find the mode(s)
-    for(int i = 0; i < numSize; i++){
-        int counter = get_occurences(arr, arr[i]);
+    for(int i = 0; i < size; i++){
+        int counter = get_occurences(arr, arr[i], size);
 
         if(counter > max_count){ //finding the mode and its frequency
             max_count = counter;
@@ -110,9 +118,9 @@ void get_mode(int *arr){
     }
 }
 
-int get_occurences(int *arr, int value){
+int get_occurences(int *arr, int value, int size){
     int counter = 0;
-    for(int j = 0; j < numSize; j++){  //to count occurences of a specific number
+    for(int j = 0; j < size; j++){  //to count occurences of a specific number
         if(value == arr[j]){
             counter++;
         }
