@@ -4,6 +4,7 @@
 
 int main(void){
     int errorCount = 0;
+    int uppercaseFound = 0;
 
     printf("Insert your text stream\n");
     char line[500];
@@ -48,8 +49,11 @@ int main(void){
 
         for(int i = 1; i < length; i++){
             if(isupper(word[i])){ //checking for uppercase letters beyond the 1st character
-                printf("WARNING: Word \'%s\' contains an uppercase character beyond the first character\n", word);
                 errorCount++;
+                if(uppercaseFound == 0){ //first finding of an uppercase letter
+                    printf("WARNING: Word \'%s\' contains an uppercase character beyond the first character\n", word);
+                    uppercaseFound = 1;
+                }
             }
         }
 
