@@ -49,6 +49,7 @@ int main(void){
 
         for(int i = 1; i < length; i++){
             if(isupper(word[i])){ //checking for uppercase letters beyond the 1st character
+
                 errorCount++;
                 if(uppercaseFound == 0){ //first finding of an uppercase letter
                     printf("WARNING: Word \'%s\' contains an uppercase character beyond the first character\n", word);
